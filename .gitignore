@@ -78,3 +78,13 @@ integrations/qwen/agents/
 integrations/kimi/*/
 !integrations/openclaw/README.md
 !integrations/kimi/README.md
+
+# Local MCP memory data
+.memory/
+
+# Local tool configs (generated or user-specific)
+.mcp.json
+.opencode
+.qwen
+.windsurfrules
+CONVENTIONS.md

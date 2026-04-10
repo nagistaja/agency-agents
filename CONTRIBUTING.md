@@ -35,6 +35,7 @@ Have an idea for a specialized agent? Great! Here's how to add one:
    - `engineering/` - Software development specialists
    - `design/` - UX/UI and creative specialists
    - `game-development/` - Game design and development specialists
+   - `legal/` - Legal and law firm specialists
    - `marketing/` - Growth and marketing specialists
    - `paid-media/` - Paid acquisition and media specialists
    - `product/` - Product management specialists
