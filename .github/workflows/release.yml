@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            suffix: linux-x86_64
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            suffix: macos-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Install musl toolchain
+        if: contains(matrix.target, 'musl')
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - run: cargo build --release --target ${{ matrix.target }}
+      - name: Package tarball
+        run: |
+          NAME="pakk-${GITHUB_REF_NAME}-${{ matrix.suffix }}"
+          mkdir "$NAME"
+          cp "target/${{ matrix.target }}/release/pakk" README.md LICENSE "$NAME/"
+          tar czf "$NAME.tar.gz" "$NAME"
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: pakk-*.tar.gz
